@@ -1,0 +1,22 @@
+{
+  "name": "201611node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "http.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "lwl",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.15.2",
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.0"
+  },
+  "dependencies": {
+    "ejs": "^2.5.5"
+  }
+}
