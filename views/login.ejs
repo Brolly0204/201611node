@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
 <h3><%=title%></h3>
-<form action="/loginup" method="post">
-    用户名：<input type="text" name="username"><br><br>
-    密 码：<input type="text" name="password"><br>
-    <button>登录</button>
+<form role='form' action="/loginup" method="post">
+    <div class="form-group">
+        <label for="username">用户名：</label>
+        <input class="form-control" type="text" id="username" name="username">
+    </div>
+    <div class="form-group">
+        <label for="password">密码：</label>
+        <input class="form-control" type="text" id="password" name="password">
+    </div>
+    <div class="text-center" role="group">
+        <button type="submit" class="btn btn-success">登录</button>
+    </div>
 </form>
 </body>
 </html>

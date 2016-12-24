@@ -9,6 +9,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.resolve('views'));
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, 'public')));
 var list = [];
 app.get('/', function (req, res) {
     //res.sendFile(path.resolve('assign.html'));
