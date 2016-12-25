@@ -5,32 +5,43 @@ var app = express();
 
 // 登录
 router.get('/signin',function (req, res) {
-    res.render('signin',{title: '登录页',text:''});
+    var info = '';
+    if(req.session.error) {
+        info = req.session.error
+    }
+    res.render('signin',{title: '登录页',text:info});
 });
 
 router.post('/signin',function (req, res) {
-    fs.readFile('user.json',function (err,data) {
-        var lister = JSON.parse(data.toString());
+    fs.readFile('user.json','utf8',function (err,data) {
+        var lister = JSON.parse(data);
         var flag = lister.find(function (item) {
             return req.body.username == item.username && req.body.password == item.password
         });
         if(flag) {
+            req.session.error = '';
             res.redirect('/user/welcome');
         } else {
-            res.render('signin',{title:'登录页',text:'用户名或密码错误！'});
-            console.log(req.cookies);
+            req.session.error = '用户名或密码错误！';
+            res.redirect('/user/signin');
+            //res.render('signin',{title:'登录页',text:'用户名或密码错误！'});
+            //console.log(req.cookies);
         }
     });
 
 });
 // 注册
 router.get('/signup', function (req, res) {
-    res.render('signup', {title: '注册页',text:''});
+    var info = '';
+    if(req.session.error) {
+    info = req.session.error
+    }
+    res.render('signup', {title: '注册页',text:info});
 });
 router.post('/signup', function (req, res) {
-    fs.readFile('user.json',function (err,data) {
-        if(data.toString()) {
-            var lister = JSON.parse(data.toString());
+    fs.readFile('user.json','utf8',function (err,data) {
+        if(data) {
+            var lister = JSON.parse(data);
             var flag = lister.find(function (item) {
                 return req.body.username == item.username
             });
@@ -42,17 +53,22 @@ router.post('/signup', function (req, res) {
                         console.log('错误信息：'+ err);
                         res.redirect('/user/signin');
                     });
+                    req.session.error = '';
+                    console.log(req.session.error);
                 } else {
-                    res.render('signup',{title:'注册页',text:'注册信息不能为空'});
-                    console.log(req.cookies.users);
+                    req.session.error = '注册信息不能为空';
+                    res.redirect('/user/signup');
+                    //res.render('signup',{title:'注册页',text:'注册信息不能为空'});
+                    //console.log(req.cookies.users);
                 }
             } else {
-                res.render('signup',{title:'注册页',text:'你已注册过！'});
-                console.log(req.cookies.users);
+                req.session.error = '你已注册过';
+                res.redirect('/user/signup');
+                //res.render('signup',{title:'注册页',text:'你已注册过！'});
+                //console.log(req.cookies.users);
             }
         } else {
             var list = [];
-            console.log(2222);
             if(req.body.username && req.body.password) {
                 list.push(req.body);
                 res.cookie('users',list);
@@ -61,8 +77,10 @@ router.post('/signup', function (req, res) {
                     res.redirect('/user/signin');
                 });
             } else {
-                res.render('signup',{title:'注册页',text:'注册信息不能为空'});
-                console.log(req.cookies.users);
+                req.session.error = '注册信息不能为空';
+                res.redirect('/user/signup');
+                //res.render('signup',{title:'注册页',text:'注册信息不能为空'});
+                //console.log(req.cookies.users);
             }
         }
     });

@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var path = require('path');
 var app = express();
 app.set('view engine', 'ejs');
@@ -10,6 +11,11 @@ app.set('views', path.resolve('views'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    resave: true,
+    saveUninitialized:true,//不管用不用都 进行初始化。
+    secret:'zfpx' //加密cookie
+}));
 var list = [];
 app.get('/', function (req, res) {
     //res.sendFile(path.resolve('assign.html'));
