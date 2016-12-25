@@ -31,7 +31,8 @@ app.post('/loginup', function (req, res) {
         //res.sendFile(path.resolve('ind.html'));
         res.render('welcome', {title: '欢迎页！'});
     } else {
-        res.redirect('/login');
+        res.render('login', {title: '登录页'});
+        //res.redirect('/login');
     }
 });
 app.listen(9988);
