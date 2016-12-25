@@ -5,7 +5,7 @@ var app = express();
 
 // 登录
 router.get('/signin',function (req, res) {
-      res.render('signin',{title: '登录页',text:''});
+    res.render('signin',{title: '登录页',text:''});
 });
 
 router.post('/signin',function (req, res) {
@@ -35,30 +35,42 @@ router.post('/signup', function (req, res) {
                 return req.body.username == item.username
             });
             if(!flag) {
-                lister.push(req.body);
-                res.cookie('users',lister);
-                fs.writeFile('user.json', JSON.stringify(lister),function (err) {
-                    console.log('错误信息：'+ err);
-                    res.redirect('/user/signin');
-                });
+                if(req.body.username && req.body.password) {
+                    lister.push(req.body);
+                    res.cookie('users',lister);
+                    fs.writeFile('user.json', JSON.stringify(lister),function (err) {
+                        console.log('错误信息：'+ err);
+                        res.redirect('/user/signin');
+                    });
+                } else {
+                    res.render('signup',{title:'注册页',text:'注册信息不能为空'});
+                    console.log(req.cookies.users);
+                }
             } else {
                 res.render('signup',{title:'注册页',text:'你已注册过！'});
                 console.log(req.cookies.users);
             }
         } else {
             var list = [];
-            list.push(req.body);
-            res.cookie('users',list);
-            fs.writeFile('user.json', JSON.stringify(list),function (err) {
-                console.log('错误信息：'+ err);
-                res.redirect('/user/signin');
-            });
+            console.log(2222);
+            if(req.body.username && req.body.password) {
+                list.push(req.body);
+                res.cookie('users',list);
+                fs.writeFile('user.json', JSON.stringify(list),function (err) {
+                    console.log('错误信息：'+ err);
+                    res.redirect('/user/signin');
+                });
+            } else {
+                res.render('signup',{title:'注册页',text:'注册信息不能为空'});
+                console.log(req.cookies.users);
+            }
         }
     });
+
 });
 
 router.get('/welcome', function (req, res) {
-   res.render('welcome', {title: '欢迎页'});
+    res.render('welcome', {title: '欢迎页'});
 });
 module.exports = router;
 
