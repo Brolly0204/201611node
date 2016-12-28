@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .ball {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: red;
+            margin-left: 0;
+        }
+
+        .ball:nth-child(2) {
+            background: green;
+        }
+
+        .ball:nth-child(3) {
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div id="b1" style="margin-left: 0" class="ball"></div>
+    <div id="b2" style="margin-left: 0" class="ball"></div>
+    <div id="b3" style="margin-left: 0" class="ball"></div>
+    <div id="b4" style="margin-left: 0" class="ball"></div>
+    <div id="b5" style="margin-left: 0" class="ball"></div>
+    <div id="b6" style="margin-left: 0" class="ball"></div>
+</div>
+<script type="text/javascript">
+    function ele(id) {
+        return document.querySelector(id);
+    }
+    function move(ele, target, cb) {
+        var count = 1;
+        return new Promise(function (resolve, reject) {
+            var margins = parseInt(ele.style.marginLeft);
+            setInterval(function () {
+                if (margins < target) {
+                    margins += 1;
+                    ele.style.marginLeft = margins + 'px';
+                } else {
+                    resolve('成功');
+                }
+            }, 13)
+        })
+    }
+        move(ele('#b1'),100).then(function(data){
+           return move(ele('#b2'),100);
+        }).then(function(data){
+            return move(ele('#b3'),100);
+        }).then(function(data){
+            return move(ele('#b4'),100);
+        }).then(function(data){
+            return move(ele('#b5'),100);
+        }).then(function(data){
+            return move(ele('#b6'),100);
+        }).catch(function(data){
+            console.log(data);
+        });
+
+
+</script>
+</body>
+</html>
