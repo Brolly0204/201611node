@@ -37,30 +37,27 @@
     function move(ele, target) {
         return new Promise(function (resolve, reject) {
             var margins = parseInt(ele.style.marginLeft);
-            var timer = setInterval(function () {
+            setInterval(function () {
                 if (margins < target) {
                     margins += 1;
                     ele.style.marginLeft = margins + 'px';
                 } else {
                     resolve('成功');
-                    clearInterval(timer);
                 }
             }, 13)
         })
     }
-        move(ele('#b1'),100).then(function(data){
-           return move(ele('#b2'),100);
-        }).then(function(data){
-            return move(ele('#b3'),100);
-        }).then(function(data){
-            return move(ele('#b4'),100);
-        }).then(function(data){
-            return move(ele('#b5'),100);
-        }).then(function(data){
-            return move(ele('#b6'),100);
+    var balls = document.querySelectorAll('.ball');
+    console.log(balls);
+
+    balls.forEach(function(item,ind){
+        move(balls[ind],100).then(function(data){
+            count++;
+            return move(balls[ind+1],100);
         }).catch(function(data){
             console.log(data);
         });
+    }) ;
 
 
 </script>
